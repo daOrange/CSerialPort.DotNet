@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace CSerialPort.DotNet.Core.Interops.Signatures
 {
-    [LibCSerialPortFunction("cserialport_write")]
+    [LibCSerialPortFunction("cserialport_read")]
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    internal delegate void Write(IntPtr instance, byte[] data, int length);
+    internal delegate int Read(IntPtr instance, IntPtr data, int length);
 }
