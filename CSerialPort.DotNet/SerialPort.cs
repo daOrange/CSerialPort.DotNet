@@ -4,7 +4,7 @@ using System.IO;
 
 namespace CSerialPort.DotNet
 {
-    public class CSerialPort
+    public class SerialPort
     {
         private readonly CSerialPortManager manager;
 
@@ -16,7 +16,23 @@ namespace CSerialPort.DotNet
 
         public bool IsOpen => GetIsOpen();
 
-        public CSerialPort()
+        public bool DtrEnable
+        {
+            get => manager.GetDtr();
+            set => manager.SetDtr(value);
+        }
+
+        public bool RtsEnable
+        {
+            get => manager.GetRts();
+            set => manager.SetRts(value);
+        }
+
+        public bool CtsHolding => manager.GetCts();
+
+        public bool DsrHolding => manager.GetDsr();
+
+        public SerialPort()
         {
             manager = new CSerialPortManager(new DirectoryInfo("."));
         }

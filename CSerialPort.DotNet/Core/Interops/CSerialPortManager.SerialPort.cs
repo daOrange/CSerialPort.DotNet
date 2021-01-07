@@ -78,5 +78,47 @@ namespace CSerialPort.DotNet.Core.Interops
                 throw new ArgumentException("instance is not initialized.");
             return libraryLoader.GetInteropDelegate<GetBytesToRead>().Invoke(instance);
         }
+
+        public void SetDtr(bool isEnable)
+        {
+            if (instance == IntPtr.Zero)
+                throw new ArgumentException("instance is not initialized.");
+            libraryLoader.GetInteropDelegate<SetDtr>().Invoke(instance, isEnable);
+        }
+
+        public bool GetDtr()
+        {
+            if (instance == IntPtr.Zero)
+                throw new ArgumentException("instance is not initialized.");
+            return libraryLoader.GetInteropDelegate<GetDtr>().Invoke(instance);
+        }
+
+        public void SetRts(bool isEnable)
+        {
+            if (instance == IntPtr.Zero)
+                throw new ArgumentException("instance is not initialized.");
+            libraryLoader.GetInteropDelegate<SetRts>().Invoke(instance, isEnable);
+        }
+
+        public bool GetRts()
+        {
+            if (instance == IntPtr.Zero)
+                throw new ArgumentException("instance is not initialized.");
+            return libraryLoader.GetInteropDelegate<GetRts>().Invoke(instance);
+        }
+
+        public bool GetCts()
+        {
+            if (instance == IntPtr.Zero)
+                throw new ArgumentException("instance is not initialized.");
+            return libraryLoader.GetInteropDelegate<GetCts>().Invoke(instance);
+        }
+
+        public bool GetDsr()
+        {
+            if (instance == IntPtr.Zero)
+                throw new ArgumentException("instance is not initialized.");
+            return libraryLoader.GetInteropDelegate<GetDsr>().Invoke(instance);
+        }
     }
 }

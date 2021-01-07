@@ -44,7 +44,13 @@
   <ItemGroup>
     <Compile Include="Core\Interops\CSerialPortManager.SerialPort.cs" />
     <Compile Include="Core\Interops\Signatures\cserialport_bytestoread.cs" />
+    <Compile Include="Core\Interops\Signatures\cserialport_getcts.cs" />
+    <Compile Include="Core\Interops\Signatures\cserialport_getdsr.cs" />
+    <Compile Include="Core\Interops\Signatures\cserialport_getrts.cs" />
     <Compile Include="Core\Interops\Signatures\cserialport_init.cs" />
+    <Compile Include="Core\Interops\Signatures\cserialport_getdtr.cs" />
+    <Compile Include="Core\Interops\Signatures\cserialport_setrts.cs" />
+    <Compile Include="Core\Interops\Signatures\cserialport_setdtr.cs" />
     <Compile Include="Core\Interops\Signatures\cserialport_read.cs" />
     <Compile Include="Core\Interops\Signatures\cserialport_write.cs" />
     <Compile Include="Core\Interops\Signatures\cserialport_isopen.cs" />
@@ -56,11 +62,16 @@
     <Compile Include="Core\Interops\Signatures\InteropObjectInstance.cs" />
     <Compile Include="Core\Interops\LibCSerialPortFunctionAttribute.cs" />
     <Compile Include="Core\Interops\MarshalHelper.cs" />
-    <Compile Include="CSerialPort.cs" />
+    <Compile Include="SerialPort.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Core\Interops\CSerialPortInstance.cs" />
     <Compile Include="Core\Interops\Win32Interops.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="lib\libcserialport.dll" />
+    <Content Include="lib\libcserialportexport.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
