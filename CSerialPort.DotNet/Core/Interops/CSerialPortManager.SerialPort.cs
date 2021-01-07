@@ -24,6 +24,13 @@ namespace CSerialPort.DotNet.Core.Interops
             libraryLoader.GetInteropDelegate<Close>().Invoke(instance);
         }
 
+        public void Init(string portName, int baudRate)
+        {
+            if (instance == IntPtr.Zero)
+                throw new ArgumentException("instance is not initialized.");
+            libraryLoader.GetInteropDelegate<Init>().Invoke(instance, portName, baudRate);
+        }
+
         public void Write(byte[] data)
         {
             if (instance == IntPtr.Zero)
@@ -36,21 +43,20 @@ namespace CSerialPort.DotNet.Core.Interops
             if (instance == IntPtr.Zero)
                 throw new ArgumentException("instance is not initialized.");
 
-            var buffer = Marshal.AllocHGlobal(count);
+            var buffer = Marshal.AllocHGlobal(count + 1);
             try
             {
                 Marshal.Copy(data, offset, buffer, count);
                 Marshal.WriteByte(buffer, count, 0);
 
                 var readCount = libraryLoader.GetInteropDelegate<Read>().Invoke(instance, buffer, count);
-                if (readCount == 0) return 0;
+                if (readCount <= 0) return 0;
 
                 Marshal.Copy(buffer, data, offset, readCount);
                 return readCount;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                
                 throw;
             }
             finally
@@ -64,6 +70,13 @@ namespace CSerialPort.DotNet.Core.Interops
             if (instance == IntPtr.Zero)
                 throw new ArgumentException("instance is not initialized.");
             return libraryLoader.GetInteropDelegate<IsOpen>().Invoke(instance);
+        }
+
+        public int GetBytesToRead()
+        {
+            if (instance == IntPtr.Zero)
+                throw new ArgumentException("instance is not initialized.");
+            return libraryLoader.GetInteropDelegate<GetBytesToRead>().Invoke(instance);
         }
     }
 }
