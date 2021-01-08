@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace CSerialPort.DotNet.Core.Interops.Signatures
 {
-    [LibCSerialPortFunction("cserialport_setdtr")]
+    [LibCSerialPortFunction("cserialport_set_readbuffersize")]
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    internal delegate void SetDtr(IntPtr instance, bool isEnable);
+    internal delegate void SetReadBufferSize(IntPtr instance, long size);
 }

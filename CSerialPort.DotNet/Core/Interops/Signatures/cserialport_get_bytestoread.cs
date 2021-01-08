@@ -3,8 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace CSerialPort.DotNet.Core.Interops.Signatures
 {
-    [LibCSerialPortFunction("cserialport_isopen")]
+    [LibCSerialPortFunction("cserialport_get_bytestoread")]
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.I1)]
-    internal delegate bool IsOpen(IntPtr instance);
+    internal delegate int GetBytesToRead(IntPtr instance);
 }

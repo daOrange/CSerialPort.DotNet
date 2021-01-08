@@ -1,6 +1,8 @@
 ﻿using CSerialPort.DotNet.Core.Interops;
 using System;
+using System.ComponentModel;
 using System.IO;
+using System.IO.Ports;
 
 namespace CSerialPort.DotNet
 {
@@ -8,13 +10,100 @@ namespace CSerialPort.DotNet
     {
         private readonly CSerialPortManager manager;
 
-        public string PortName { get; set; }
-
-        public int BaudRate { get; set; }
+        private string portName;
+        private int baudRate;
+        private Parity parity;
+        private int dataBits;
+        private StopBits stopBits;
+        private int readBufferSize;
 
         public int BytesToRead => GetBytesToRead();
 
         public bool IsOpen => GetIsOpen();
+
+        [DefaultValue("COM1")]
+        public string PortName
+        {
+            get => portName;
+            set
+            {
+                if (IsOpen)
+                {
+                    manager.SetPortName(value);
+                }
+                portName = value;
+            }
+        }
+
+        [DefaultValue(9600)]
+        public int BaudRate
+        {
+            get => baudRate;
+            set
+            {
+                if (IsOpen)
+                {
+                    manager.SetBaudRate(value);
+                }
+                baudRate = value;
+            }
+        }
+
+        [DefaultValue(Parity.None)]
+        public Parity Parity
+        {
+            get => parity;
+            set
+            {
+                if (IsOpen)
+                {
+                    manager.SetParity((Core.Interops.Signatures.Parity)value);
+                }
+                parity = value;
+            }
+        }
+
+        [DefaultValue(8)]
+        public int DataBits
+        {
+            get => dataBits;
+            set
+            {
+                if (IsOpen)
+                {
+                    manager.SetDataBits((Core.Interops.Signatures.DataBits)value);
+                }
+                dataBits = value;
+            }
+        }
+
+        [DefaultValue(StopBits.One)]
+        public StopBits StopBits
+        {
+            get => stopBits;
+            set
+            {
+                if (IsOpen)
+                {
+                    manager.SetStopBits(ToSignaturesStopBits(value));
+                }
+                stopBits = value;
+            }
+        }
+
+        [DefaultValue(4096)]
+        public int ReadBufferSize
+        {
+            get => readBufferSize;
+            set
+            {
+                if (IsOpen)
+                {
+                    manager.SetReadBufferSize(Convert.ToInt64(value));
+                }
+                readBufferSize = value;
+            }
+        }
 
         public bool DtrEnable
         {
@@ -34,12 +123,23 @@ namespace CSerialPort.DotNet
 
         public SerialPort()
         {
+            portName = "COM1";
+            baudRate = 9600;
+            parity = Parity.None;
+            dataBits = 8;
+            stopBits = StopBits.One;
+            readBufferSize = 4096;
+
             manager = new CSerialPortManager(new DirectoryInfo("."));
         }
 
         public void Open()
         {
-            manager.Init(PortName, BaudRate);
+            manager.Init(PortName, BaudRate,
+                (Core.Interops.Signatures.Parity)Parity,
+                (Core.Interops.Signatures.DataBits)DataBits,
+                ToSignaturesStopBits(StopBits),
+                Convert.ToInt64(ReadBufferSize));
             manager.Open();
         }
 
@@ -68,7 +168,24 @@ namespace CSerialPort.DotNet
 
         private bool GetIsOpen()
         {
-            return manager.IsOpen();
+            return manager.GetIsOpen();
+        }
+
+        private Core.Interops.Signatures.StopBits ToSignaturesStopBits(StopBits stopBits)
+        {
+            switch (stopBits)
+            {
+                case StopBits.None:
+                    throw new Exception("can not set stopBits to 0");
+                case StopBits.One:
+                    return Core.Interops.Signatures.StopBits.StopOne;
+                case StopBits.Two:
+                    return Core.Interops.Signatures.StopBits.StopTwo;
+                case StopBits.OnePointFive:
+                    return Core.Interops.Signatures.StopBits.StopOneAndHalf;
+                default:
+                    throw new Exception("unknow stopbits");
+            }
         }
     }
 }

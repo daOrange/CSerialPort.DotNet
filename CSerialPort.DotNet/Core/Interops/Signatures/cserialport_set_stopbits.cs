@@ -3,8 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace CSerialPort.DotNet.Core.Interops.Signatures
 {
-    [LibCSerialPortFunction("cserialport_getdtr")]
+    [LibCSerialPortFunction("cserialport_set_stopbits")]
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.I1)]
-    internal delegate bool GetDtr(IntPtr instance);
+    internal delegate void SetStopBits(IntPtr instance, StopBits stopbits);
 }

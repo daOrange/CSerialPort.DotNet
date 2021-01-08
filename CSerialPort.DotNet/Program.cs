@@ -30,23 +30,37 @@ namespace CSerialPort.DotNet
             //manager.Close();
             //Console.WriteLine(manager.IsOpen().ToString());
 
-            var port = new SerialPort();
+            var port = new System.IO.Ports.SerialPort();
 
-            port.PortName = "COM3";
+            port.PortName = "COM12";
             port.BaudRate = 9600;
             port.Open();
-            //port.Write(new byte[] { 0x55, 0xff, 0x01, 0xaa, 0x01, 0xaa, 0x01, 0xaa, 0x01, 0xaa, 0x01, 0xaa, 0x01 }, 0, 4);
-            Console.WriteLine(port.IsOpen.ToString());
-            var data = new byte[1024];
-            var a = port.DtrEnable;
-            while (true)
-            {
-                //var readCount = port.Read(data, 0, 1024);
-                //if (readCount > 0) Console.WriteLine(System.Text.Encoding.UTF8.GetString(data, 0, readCount));
-                port.RtsEnable = !port.RtsEnable;
-                Console.WriteLine(port.RtsEnable);
-                Thread.Sleep(1);
-            }
+
+            //Console.WriteLine(port.IsOpen.ToString());
+            //var data = new byte[1024];
+            //var a = port.DtrEnable;
+            //for (int i = 0; i < 200; i++)
+            //{
+            //    //var readCount = port.Read(data, 0, 1024);
+            //    //if (readCount > 0) Console.WriteLine(System.Text.Encoding.UTF8.GetString(data, 0, readCount));
+            //    //port.RtsEnable = !port.RtsEnable;
+            //    //Console.WriteLine(port.RtsEnable);
+            //    port.Write(new byte[] { 0x55, 0xff, 0x01, 0xaa, 0x01, 0xaa, 0x01, 0xaa, 0x01, 0xaa, 0x01, 0xaa, 0x01 }, 0, 4);
+            //    Thread.Sleep(1);
+            //}
+            //port.BaudRate = 115200;
+            //Thread.Sleep(5000);
+            //for (int i = 0; i < 200; i++)
+            //{
+            //    //var readCount = port.Read(data, 0, 1024);
+            //    //if (readCount > 0) Console.WriteLine(System.Text.Encoding.UTF8.GetString(data, 0, readCount));
+            //    //port.RtsEnable = !port.RtsEnable;
+            //    //Console.WriteLine(port.RtsEnable);
+            //    port.Write(new byte[] { 0x55, 0xff, 0x01, 0xaa, 0x01, 0xaa, 0x01, 0xaa, 0x01, 0xaa, 0x01, 0xaa, 0x01 }, 0, 4);
+            //    Thread.Sleep(1);
+            //}
+            //Console.ReadKey();
+            port.Write(new byte[] { 0x55, 0xff, 0x01, 0xaa, 0x01, 0xaa, 0x01, 0xaa, 0x01, 0xaa, 0x01, 0xaa, 0x01, 0x55, 0xff, 0x01, 0xaa, 0x01, 0xaa, 0x01, 0xaa, 0x01, 0xaa, 0x01, 0xaa, 0x01 }, 0, 26);
             Console.ReadKey();
             port.Close();
             Console.WriteLine(port.IsOpen.ToString());
